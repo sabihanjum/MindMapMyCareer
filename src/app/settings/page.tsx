@@ -75,6 +75,7 @@ export default function SettingsPage() {
                          </div>
                          <div className="mt-6 space-y-2"><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
                          <div className="mt-6 space-y-2"><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
+                         <div className="mt-6 space-y-2"><Skeleton className='h-4 w-12' /><Skeleton className="h-24 w-full" /></div>
                     </CardContent>
                 ) : (
                     <>
@@ -96,17 +97,17 @@ export default function SettingsPage() {
 
                         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
                              <div className="space-y-2">
-                                <Label htmlFor="fullName">Full Name</Label>
-                                <Input id="fullName" defaultValue={user.name.split(' ')[0]} />
+                                <Label htmlFor="firstName">First name</Label>
+                                <Input id="firstName" defaultValue={user.name.split(' ')[0]} />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="lastName">Last Name</Label>
+                                <Label htmlFor="lastName">Last name</Label>
                                 <Input id="lastName" defaultValue={user.name.split(' ').slice(1).join(' ')} />
                             </div>
                         </div>
 
                         <div className="mt-6 space-y-2">
-                            <Label htmlFor="email">Email</Label>
+                            <Label htmlFor="email">Location</Label>
                             <Input id="email" type="email" defaultValue={user.email} />
                         </div>
                         
