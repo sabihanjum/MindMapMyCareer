@@ -12,7 +12,7 @@ export default function SignupPage() {
             <Logo />
           </div>
           <CardTitle className="font-headline text-2xl">Create an Account</CardTitle>
-          <CardDescription>Start your personalized career journey today!</CardDescription>
+          <CardDescription>Start your AI-powered career journey today!</CardDescription>
         </CardHeader>
         <CardContent>
           <SignupForm />
