@@ -137,7 +137,7 @@ export default function DashboardPage() {
                           </TableHeader>
                           <TableBody>
                               {leaderboard.map((player) => (
-                                  <TableRow key={player.rank} className={userRank && player.rank === userRank.rank ? "bg-secondary/80" : ""}>
+                                  <TableRow key={player.rank} className={userRank && player.name === userRank.name ? "bg-secondary/80" : ""}>
                                       <TableCell className="font-medium">{player.rank}</TableCell>
                                       <TableCell>{player.name}</TableCell>
                                       <TableCell className="text-right font-mono">{player.points}</TableCell>
