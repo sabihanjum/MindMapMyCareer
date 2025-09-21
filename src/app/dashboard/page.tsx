@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import AppLayout from "@/components/layout/app-layout";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -6,9 +9,12 @@ import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { BarChart, BookOpen, Bot, Award, Star, Trophy, Target, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getCurrentUser } from '@/lib/actions';
+import type { User } from '@/lib/user-store';
+import { Skeleton } from '@/components/ui/skeleton';
 
-const user = {
-  name: "Priya",
+
+const progressData = {
   level: 5,
   points: 450,
 };
@@ -29,14 +35,36 @@ const leaderboard = [
 ];
 
 export default function DashboardPage() {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const currentUser = await getCurrentUser();
+            setUser(currentUser);
+        };
+        fetchUser();
+    }, []);
+
+    const userRank = leaderboard.find(p => p.name === (user?.name.split(' ')[0] || ''));
+
+
   return (
     <AppLayout>
       <div className="flex flex-col gap-8 p-4 md:p-8">
         <header>
-          <h1 className="font-headline text-3xl font-bold tracking-tight text-primary">
-            Welcome back, {user.name}!
-          </h1>
-          <p className="text-muted-foreground">Here's your progress. Keep up the great work!</p>
+            {user ? (
+                <>
+                 <h1 className="font-headline text-3xl font-bold tracking-tight text-primary">
+                    Welcome back, {user.name.split(' ')[0]}!
+                  </h1>
+                  <p className="text-muted-foreground">Here's your progress. Keep up the great work!</p>
+                </>
+            ) : (
+                <div className="space-y-2">
+                    <Skeleton className="h-9 w-64" />
+                    <Skeleton className="h-5 w-80" />
+                </div>
+            )}
         </header>
         <main className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:col-span-3">
@@ -50,11 +78,11 @@ export default function DashboardPage() {
                   <CardContent>
                       <div className="flex items-end justify-between">
                           <div>
-                              <p className="text-4xl font-bold">{user.points}</p>
+                              <p className="text-4xl font-bold">{progressData.points}</p>
                               <p className="text-muted-foreground">Points</p>
                           </div>
                           <div>
-                              <p className="text-4xl font-bold">{user.level}</p>
+                              <p className="text-4xl font-bold">{progressData.level}</p>
                               <p className="text-muted-foreground">Level</p>
                           </div>
                       </div>
@@ -109,7 +137,7 @@ export default function DashboardPage() {
                           </TableHeader>
                           <TableBody>
                               {leaderboard.map((player) => (
-                                  <TableRow key={player.rank} className={player.name === user.name ? "bg-secondary/80" : ""}>
+                                  <TableRow key={player.rank} className={userRank && player.rank === userRank.rank ? "bg-secondary/80" : ""}>
                                       <TableCell className="font-medium">{player.rank}</TableCell>
                                       <TableCell>{player.name}</TableCell>
                                       <TableCell className="text-right font-mono">{player.points}</TableCell>

@@ -10,7 +10,8 @@ import {
   AnswerCareerQueriesInput,
   AnswerCareerQueriesOutput,
 } from '@/ai/flows/answer-career-queries';
-import { User, findUserByEmail, saveUser } from './user-store';
+import { User, findUserByEmail, saveUser, findUserById } from './user-store';
+import { getSession, login, logout } from './session';
 
 export async function generateCareerPathwaysAction(
   input: GenerateCareerPathwaysInput
@@ -56,8 +57,8 @@ export async function signupUserAction(
     if (existingUser) {
       return { success: false, error: 'An account with this email already exists.' };
     }
-    saveUser(input);
-    // In a real app, you would also create a session/cookie here
+    const user = saveUser(input);
+    await login(user.id);
     return { success: true };
   } catch (error) {
     console.error('Error in signupUserAction:', error);
@@ -76,10 +77,22 @@ export async function loginUserAction(
     if (user.password !== input.password) {
       return { success: false, error: 'Incorrect password' };
     }
-    // In a real app, you would also create a session/cookie here
+    await login(user.id);
     return { success: true };
   } catch (error) {
     console.error('Error in loginUserAction:', error);
     return { success: false, error: 'An unexpected error occurred.' };
   }
+}
+
+export async function logoutAction() {
+    await logout();
+}
+
+export async function getCurrentUser() {
+    const session = await getSession();
+    if (session.userId) {
+        return findUserById(session.userId);
+    }
+    return null;
 }
