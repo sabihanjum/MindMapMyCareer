@@ -12,6 +12,7 @@ import Link from "next/link";
 import { getCurrentUser } from '@/lib/actions';
 import type { User } from '@/lib/user-store';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 
 const progressData = {
@@ -20,10 +21,10 @@ const progressData = {
 };
 
 const badges = [
-  { id: "1", name: "First Step", icon: <Star className="h-6 w-6 text-yellow-400" />, imageId: "badge1" },
-  { id: "2", name: "Career Explorer", icon: <BookOpen className="h-6 w-6 text-blue-400" />, imageId: "badge2" },
-  { id: "3", name: "Quiz Master", icon: <Trophy className="h-6 w-6 text-green-400" />, imageId: "badge3" },
-  { id: "4", name: "Pathway Pro", icon: <Target className="h-6 w-6 text-red-400" />, imageId: "badge4" },
+  { id: "1", name: "First Step", description: "Awarded for signing up!", icon: <Star className="h-6 w-6 text-yellow-400" />, imageId: "badge1" },
+  { id: "2", name: "Career Explorer", description: "Generated your first career pathway.", icon: <BookOpen className="h-6 w-6 text-blue-400" />, imageId: "badge2" },
+  { id: "3", name: "Quiz Master", description: "Completed your first quiz.", icon: <Trophy className="h-6 w-6 text-green-400" />, imageId: "badge3" },
+  { id: "4", name: "Pathway Pro", description: "Explored 3 different pathways.", icon: <Target className="h-6 w-6 text-red-400" />, imageId: "badge4" },
 ];
 
 const leaderboard = [
@@ -49,6 +50,7 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
+      <TooltipProvider>
       <div className="flex flex-col gap-8 p-4 md:p-8">
         <header>
             {user ? (
@@ -100,18 +102,26 @@ export default function DashboardPage() {
                           {badges.map((badge) => {
                               const placeholder = PlaceHolderImages.find(p => p.id === badge.imageId);
                               return (
-                                  <div key={badge.id} title={badge.name} className="relative h-16 w-16 rounded-full border-4 border-background bg-card transition-transform hover:scale-110 hover:z-10">
-                                    {placeholder && (
-                                      <Image
-                                        src={placeholder.imageUrl}
-                                        alt={badge.name}
-                                        width={64}
-                                        height={64}
-                                        className="rounded-full object-cover"
-                                        data-ai-hint={placeholder.imageHint}
-                                      />
-                                    )}
-                                  </div>
+                                <Tooltip key={badge.id}>
+                                  <TooltipTrigger>
+                                    <div title={badge.name} className="relative h-16 w-16 rounded-full border-4 border-background bg-card transition-transform hover:scale-110 hover:z-10">
+                                      {placeholder && (
+                                        <Image
+                                          src={placeholder.imageUrl}
+                                          alt={badge.name}
+                                          width={64}
+                                          height={64}
+                                          className="rounded-full object-cover"
+                                          data-ai-hint={placeholder.imageHint}
+                                        />
+                                      )}
+                                    </div>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p className='font-bold'>{badge.name}</p>
+                                    <p>{badge.description}</p>
+                                  </TooltipContent>
+                                </Tooltip>
                               )
                           })}
                       </div>
@@ -191,6 +201,7 @@ export default function DashboardPage() {
           </div>
         </main>
       </div>
+      </TooltipProvider>
     </AppLayout>
   );
 }
