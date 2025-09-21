@@ -73,7 +73,8 @@ export async function signupUserAction(
   try {
     const existingUser = findUserByEmail(input.email);
     if (existingUser) {
-      return { success: false, error: 'An account with this email already exists.' };
+      // If user exists, try to log them in instead of creating a new account
+      return await loginUserAction(input);
     }
     const user = saveUser(input);
     await login(user.id);
