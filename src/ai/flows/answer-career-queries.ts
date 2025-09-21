@@ -48,13 +48,13 @@ const answerCareerQueriesFlow = ai.defineFlow(
     outputSchema: AnswerCareerQueriesOutputSchema,
   },
   async input => {
-    const {stream} = await ai.generateStream({
+    const {stream} = ai.generateStream({
         prompt: {
             ...prompt,
             input,
         }
     });
 
-    return stream.stream();
+    return stream;
   }
 );
