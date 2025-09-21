@@ -10,8 +10,7 @@ interface PathwaysDisplayProps {
 }
 
 export function PathwaysDisplay({ result, onReset }: PathwaysDisplayProps) {
-    const pathways = result.careerPathways.split('\n').filter(p => p.trim() !== '' && p.startsWith('- '));
-    const recommendations = result.upskillingRecommendations.split('\n').filter(p => p.trim() !== '' && p.startsWith('- '));
+  const { careerPathways, upskillingRecommendations } = result;
   
   return (
     <div className="space-y-6">
@@ -31,12 +30,12 @@ export function PathwaysDisplay({ result, onReset }: PathwaysDisplayProps) {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-            {pathways.map((path, index) => (
+            {careerPathways.map((path, index) => (
                  <div key={index} className="flex items-start gap-3 rounded-lg border p-4">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <span className="font-bold">{index + 1}</span>
                     </div>
-                    <p className="flex-1 pt-1.5 text-sm font-medium">{path.replace('- ', '')}</p>
+                    <p className="flex-1 pt-1.5 text-sm font-medium">{path}</p>
                  </div>
             ))}
         </CardContent>
@@ -54,9 +53,9 @@ export function PathwaysDisplay({ result, onReset }: PathwaysDisplayProps) {
         </CardHeader>
         <CardContent>
             <Accordion type="single" collapsible className="w-full">
-                {recommendations.map((rec, index) => (
+                {upskillingRecommendations.map((rec, index) => (
                     <AccordionItem value={`item-${index}`} key={index}>
-                        <AccordionTrigger className="font-medium text-left">{rec.replace('- ', '')}</AccordionTrigger>
+                        <AccordionTrigger className="font-medium text-left">{rec}</AccordionTrigger>
                         <AccordionContent>
                            We recommend online courses from platforms like Coursera or Udemy, looking for local workshops, and finding projects to practice this skill.
                         </AccordionContent>

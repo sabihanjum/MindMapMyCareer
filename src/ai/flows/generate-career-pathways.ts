@@ -27,14 +27,14 @@ export type GenerateCareerPathwaysInput = z.infer<
 
 const GenerateCareerPathwaysOutputSchema = z.object({
   careerPathways: z
-    .string()
+    .array(z.string())
     .describe(
-      'A list of potential career pathways tailored to the student\'s profile.'
+      'A list of 3-5 potential career pathways tailored to the student\'s profile.'
     ),
   upskillingRecommendations: z
-    .string()
+    .array(z.string())
     .describe(
-      'A list of upskilling recommendations to help the student pursue their chosen career paths.'
+      'A list of 3-5 upskilling recommendations to help the student pursue their chosen career paths.'
     ),
 });
 export type GenerateCareerPathwaysOutput = z.infer<
@@ -58,8 +58,7 @@ const prompt = ai.definePrompt({
   Aspirations: {{{aspirations}}}
 
   Based on the student's profile, suggest potential career pathways and upskilling recommendations.
-  Career Pathways:
-  Upskilling Recommendations: `,
+  `,
 });
 
 const generateCareerPathwaysFlow = ai.defineFlow(
