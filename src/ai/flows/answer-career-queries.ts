@@ -27,7 +27,7 @@ export type AnswerCareerQueriesOutput = z.infer<typeof AnswerCareerQueriesOutput
 
 export async function answerCareerQueries(
   input: AnswerCareerQueriesInput
-) {
+): Promise<AnswerCareerQueriesOutput> {
   return answerCareerQueriesFlow(input);
 }
 
@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   name: 'answerCareerQueriesPrompt',
   input: {schema: AnswerCareerQueriesInputSchema},
   output: {schema: AnswerCareerQueriesOutputSchema},
-  prompt: `You are a helpful AI career chatbot assisting students with their career-related questions.
+  prompt: `You are a helpful AI career chatbot assisting students with their career-related questions. Your response should be formatted in markdown.
 
   Question: {{{question}}}
   Answer: `,
@@ -45,17 +45,10 @@ const answerCareerQueriesFlow = ai.defineFlow(
   {
     name: 'answerCareerQueriesFlow',
     inputSchema: AnswerCareerQueriesInputSchema,
-    outputSchema: z.string(),
-    stream: true,
+    outputSchema: AnswerCareerQueriesOutputSchema,
   },
-  async function* (input) {
-    const {stream} = await ai.generateStream({
-      prompt: prompt.prompt,
-      promptArgs: input,
-    });
-
-    for await (const chunk of stream) {
-      yield chunk.text;
-    }
+  async (input) => {
+    const {output} = await prompt(input);
+    return output!;
   }
 );

@@ -42,31 +42,25 @@ export function ChatInterface() {
     if (!input.trim() || isPending) return;
 
     const userMessage: ChatMessage = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const tempAssistantMessage: ChatMessage = { role: 'assistant', content: '' };
+    setMessages((prev) => [...prev, userMessage, tempAssistantMessage]);
     setInput('');
 
     startTransition(async () => {
-      const assistantMessage: ChatMessage = { role: 'assistant', content: '' };
-      setMessages((prev) => [...prev, assistantMessage]);
-
-      const stream = answerCareerQueryAction({ question: input });
-
-      for await (const partial of stream) {
-        if (partial.answer) {
-             setMessages((prev) =>
-                prev.map((msg, i) =>
-                    i === prev.length - 1 ? { ...msg, content: partial.answer } : msg
-                )
-            );
-        } else if (partial.error) {
-            setMessages((prev) =>
-                prev.map((msg, i) =>
-                    i === prev.length - 1 ? { ...msg, content: `Error: ${partial.error}` } : msg
-                )
-            );
-            break;
-        }
+      const result = await answerCareerQueryAction({ question: input });
+      
+      let newAssistantMessage: ChatMessage;
+      if ('answer' in result) {
+        newAssistantMessage = { role: 'assistant', content: result.answer };
+      } else {
+        newAssistantMessage = { role: 'assistant', content: `Error: ${result.error}` };
       }
+
+      setMessages((prev) => {
+        const newMessages = [...prev];
+        newMessages[newMessages.length - 1] = newAssistantMessage;
+        return newMessages;
+      });
     });
   };
   
@@ -105,7 +99,7 @@ export function ChatInterface() {
                 )}
               >
                 {message.content ? (
-                    <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: message.content.replace(/\n/g, '<br />') }} />
+                    <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: message.content.replace(/\\n/g, '<br />') }} />
                 ) : (
                   <div className="flex items-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />

@@ -8,6 +8,7 @@ import {
 import {
   answerCareerQueries,
   AnswerCareerQueriesInput,
+  AnswerCareerQueriesOutput,
 } from '@/ai/flows/answer-career-queries';
 
 export async function generateCareerPathwaysAction(
@@ -22,14 +23,12 @@ export async function generateCareerPathwaysAction(
   }
 }
 
-export async function* answerCareerQueryAction(
+export async function answerCareerQueryAction(
   input: AnswerCareerQueriesInput
-): AsyncGenerator<{ answer: string } | { error: string }, void, unknown> {
+): Promise<AnswerCareerQueriesOutput | { error: string }> {
   try {
-    const stream = await answerCareerQueries(input);
-    for await (const chunk of stream) {
-      yield { answer: chunk };
-    }
+    const result = await answerCareerQueries(input);
+    return result;
   } catch (error) {
     console.error('Error in answerCareerQueryAction:', error);
     if (error instanceof Error) {
@@ -42,6 +41,6 @@ export async function* answerCareerQueryAction(
         console.error('Could not stringify error object');
       }
     }
-    yield { error: 'Failed to get an answer. Please try again later.' };
+    return { error: 'Failed to get an answer. Please try again later.' };
   }
 }
