@@ -2,7 +2,7 @@
 
 MindMapMyCareer is a Next.js web application designed to help students and professionals explore personalized career pathways using the power of AI. It provides tailored recommendations, an interactive AI chatbot for career advice, and quizzes to test knowledge.
 
-## ✨ Features
+## Features
 
 - **AI-Powered Pathway Generation**: Enter your skills, interests, and aspirations to receive a curated list of potential career paths and recommended skills to develop.
 - **AI Career Advisor Chatbot**: Ask career-related questions and get instant, helpful answers from an AI-powered chatbot.
@@ -10,7 +10,7 @@ MindMapMyCareer is a Next.js web application designed to help students and profe
 - **Gamified Dashboard**: Track your progress with levels, points, and a leaderboard to see how you stack up against your peers.
 - **Modern, Responsive UI**: Built with ShadCN UI and Tailwind CSS for a clean and responsive user experience on any device.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Framework**: [Next.js](https://nextjs.org/) (with App Router)
 - **AI/Generative**: [Google's Gemini model](https://deepmind.google/technologies/gemini/) via [Genkit](https://firebase.google.com/docs/genkit)
@@ -20,7 +20,7 @@ MindMapMyCareer is a Next.js web application designed to help students and profe
 - **Icons**: [Lucide React](https://lucide.dev/guide/packages/lucide-react)
 - **Forms**: [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
 
@@ -69,7 +69,7 @@ This project consists of two main parts that need to run concurrently in develop
     ```
     This starts the Genkit flows and provides a UI to inspect them, typically on [http://localhost:4000](http://localhost:4000).
 
-## 📜 Available Scripts
+## Available Scripts
 
 - `npm run dev`: Runs the Next.js application in development mode with Turbopack.
 - `npm run genkit:dev`: Starts the Genkit development server.
@@ -77,6 +77,6 @@ This project consists of two main parts that need to run concurrently in develop
 - `npm run start`: Starts a production server.
 - `npm run lint`: Lints the project files using Next.js's built-in ESLint configuration.
 
-## ☁️ Deployment
+## Deployment
 
 This project is configured for deployment on [Netlify](https://www.netlify.com/). The `netlify.toml` file contains the necessary build commands and plugin configurations. Simply link your repository to a new site in Netlify to deploy.
