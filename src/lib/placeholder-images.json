@@ -1,3 +1,28 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "badge1",
+      "description": "A golden star badge for beginners.",
+      "imageUrl": "https://picsum.photos/seed/badge1/64/64",
+      "imageHint": "gold star"
+    },
+    {
+      "id": "badge2",
+      "description": "A blue book badge for exploring careers.",
+      "imageUrl": "https://picsum.photos/seed/badge2/64/64",
+      "imageHint": "blue book"
+    },
+    {
+      "id": "badge3",
+      "description": "A green trophy badge for mastering quizzes.",
+      "imageUrl": "https://picsum.photos/seed/badge3/64/64",
+      "imageHint": "green trophy"
+    },
+    {
+      "id": "badge4",
+      "description": "A red target badge for finding a career path.",
+      "imageUrl": "https://picsum.photos/seed/badge4/64/64",
+      "imageHint": "red target"
+    }
+  ]
 }
