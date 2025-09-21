@@ -31,7 +31,6 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
     const generateStyles = () => {
       return [...Array(15)].map(() => ({
         animation: `move ${15 + Math.random() * 20}s linear infinite`,
@@ -42,6 +41,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       }));
     };
     setIconStyles(generateStyles());
+    setIsMounted(true);
   }, []);
 
   return (
