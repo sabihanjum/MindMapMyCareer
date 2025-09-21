@@ -32,27 +32,27 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setIsMounted(true);
+    
+    const generateStyles = () => {
+      return [...Array(15)].map(() => ({
+        animation: `move ${15 + Math.random() * 20}s linear infinite`,
+        animationDelay: `${-Math.random() * 20}s`,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        transform: `scale(${0.5 + Math.random()})`,
+      }));
+    };
+    setIconStyles(generateStyles());
   }, []);
 
-  useEffect(() => {
-    if (isMounted) {
-      const generateStyles = () => {
-        return [...Array(15)].map(() => ({
-          animation: `move ${15 + Math.random() * 20}s linear infinite`,
-          animationDelay: `${-Math.random() * 20}s`,
-          top: `${Math.random() * 100}%`,
-          left: `${Math.random() * 100}%`,
-          transform: `scale(${0.5 + Math.random()})`,
-        }));
-      };
-      setIconStyles(generateStyles());
-    }
-  }, [isMounted]);
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        {isMounted && iconStyles.map((style, i) => (
+        {iconStyles.map((style, i) => (
           <IconWrapper key={i} style={style}>
             {icons[i % icons.length]}
           </IconWrapper>
