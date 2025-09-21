@@ -31,7 +31,6 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // This effect runs only on the client, after initial hydration
     setIsMounted(true);
   }, []);
 
