@@ -1,7 +1,7 @@
 'use client';
 
 import { Brain, HelpCircle, User } from 'lucide-react';
-import type { ReactNode } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 
 const icons = [
   <HelpCircle key="1" className="h-8 w-8 text-primary/50" />,
@@ -11,7 +11,6 @@ const icons = [
     <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
     <path d="M14.12 14.12a3 3 0 1 0-4.24-4.24" />
     <path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/>
-    <path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z"/>
     <path d="M12 16.5c-2.5 0-5-1-5-2.5" />
   </svg>,
   <svg key="5" className="h-8 w-8 text-accent/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -28,23 +27,29 @@ const IconWrapper = ({ children, style }: { children: ReactNode; style: React.CS
 );
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
+  const [iconStyles, setIconStyles] = useState<React.CSSProperties[]>([]);
+
+  useEffect(() => {
+    const generateStyles = () => {
+      return [...Array(15)].map(() => ({
+        animation: `move ${15 + Math.random() * 20}s linear infinite`,
+        animationDelay: `${-Math.random() * 20}s`,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        transform: `scale(${0.5 + Math.random()})`,
+      }));
+    };
+    setIconStyles(generateStyles());
+  }, []);
+
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        {[...Array(15)].map((_, i) => {
-          const style: React.CSSProperties = {
-            animation: `move ${15 + Math.random() * 20}s linear infinite`,
-            animationDelay: `${-Math.random() * 20}s`,
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
-            transform: `scale(${0.5 + Math.random()})`,
-          };
-          return (
-            <IconWrapper key={i} style={style}>
-              {icons[i % icons.length]}
-            </IconWrapper>
-          );
-        })}
+        {iconStyles.map((style, i) => (
+          <IconWrapper key={i} style={style}>
+            {icons[i % icons.length]}
+          </IconWrapper>
+        ))}
       </div>
       <style jsx>{`
         @keyframes move {
