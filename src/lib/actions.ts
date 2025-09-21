@@ -27,13 +27,21 @@ export async function* answerCareerQueryAction(
 ): AsyncGenerator<{ answer: string } | { error: string }, void, unknown> {
   try {
     const stream = await answerCareerQueries(input);
-    let fullAnswer = '';
-    for await (const partial of stream) {
-        fullAnswer += partial;
-        yield { answer: fullAnswer };
+    for await (const chunk of stream) {
+      yield { answer: chunk };
     }
   } catch (error) {
     console.error('Error in answerCareerQueryAction:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    } else {
+      try {
+        console.error('Error JSON:', JSON.stringify(error));
+      } catch {
+        console.error('Could not stringify error object');
+      }
+    }
     yield { error: 'Failed to get an answer. Please try again later.' };
   }
 }
