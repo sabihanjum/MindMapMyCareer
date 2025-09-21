@@ -45,9 +45,10 @@ const answerCareerQueriesFlow = ai.defineFlow(
   {
     name: 'answerCareerQueriesFlow',
     inputSchema: AnswerCareerQueriesInputSchema,
-    outputSchema: AnswerCareerQueriesOutputSchema,
+    outputSchema: z.string(),
+    stream: true,
   },
-  async input => {
+  async function* (input) {
     const {stream} = ai.generateStream({
         prompt: {
             ...prompt,
@@ -55,6 +56,8 @@ const answerCareerQueriesFlow = ai.defineFlow(
         }
     });
 
-    return stream;
+    for await (const chunk of stream) {
+      yield chunk.text;
+    }
   }
 );
