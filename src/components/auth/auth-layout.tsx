@@ -31,12 +31,10 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // This effect runs only on the client, after the initial render.
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    // This prevents the hydration error by ensuring Math.random() is not used on the server.
     if (isMounted) {
       const generateStyles = () => {
         return [...Array(15)].map(() => ({
