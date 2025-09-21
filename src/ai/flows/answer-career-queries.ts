@@ -25,7 +25,9 @@ const AnswerCareerQueriesOutputSchema = z.object({
 });
 export type AnswerCareerQueriesOutput = z.infer<typeof AnswerCareerQueriesOutputSchema>;
 
-export async function answerCareerQueries(input: AnswerCareerQueriesInput): Promise<AnswerCareerQueriesOutput> {
+export async function answerCareerQueries(
+  input: AnswerCareerQueriesInput
+) {
   return answerCareerQueriesFlow(input);
 }
 
@@ -46,7 +48,13 @@ const answerCareerQueriesFlow = ai.defineFlow(
     outputSchema: AnswerCareerQueriesOutputSchema,
   },
   async input => {
-    const {output} = await prompt(input);
-    return output!;
+    const {stream} = await ai.generateStream({
+        prompt: {
+            ...prompt,
+            input,
+        }
+    });
+
+    return stream.stream();
   }
 );

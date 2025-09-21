@@ -26,8 +26,10 @@ export async function* answerCareerQueryAction(
   input: AnswerCareerQueriesInput
 ): AsyncGenerator<{ answer: string } | { error: string }, void, unknown> {
   try {
-    const result = await answerCareerQueries(input);
-    yield { answer: result.answer };
+    const stream = await answerCareerQueries(input);
+    for await (const partial of stream) {
+        yield { answer: partial.answer };
+    }
   } catch (error) {
     console.error(error);
     yield { error: 'Failed to get an answer. Please try again later.' };
