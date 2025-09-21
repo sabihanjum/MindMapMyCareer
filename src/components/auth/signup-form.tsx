@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -8,6 +9,9 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { signupUserAction } from '@/lib/actions';
+import { Loader2 } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -17,6 +21,9 @@ const formSchema = z.object({
 
 export function SignupForm() {
   const router = useRouter();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,10 +33,20 @@ export function SignupForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Mock signup logic
-    console.log(values);
-    router.push('/dashboard');
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
+    const result = await signupUserAction(values);
+    setIsSubmitting(false);
+
+    if (result.success) {
+      router.push('/dashboard');
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Signup Failed",
+        description: result.error,
+      });
+    }
   }
 
   return (
@@ -74,7 +91,8 @@ export function SignupForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+        <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={isSubmitting}>
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           Create Account
         </Button>
          <p className="text-center text-sm text-muted-foreground">
