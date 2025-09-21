@@ -32,7 +32,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // This effect runs only on the client, after the initial render.
-    // This prevents the hydration error.
+    // This prevents the hydration error by ensuring Math.random() is not used on the server.
     const generateStyles = () => {
       return [...Array(15)].map(() => ({
         animation: `move ${15 + Math.random() * 20}s linear infinite`,
