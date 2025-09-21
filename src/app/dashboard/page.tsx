@@ -45,8 +45,7 @@ export default function DashboardPage() {
         fetchUser();
     }, []);
 
-    const userRank = leaderboard.find(p => p.name === (user?.name.split(' ')[0] || ''));
-
+    const userRank = user ? leaderboard.find(p => p.name === user.name.split(' ')[0]) : null;
 
   return (
     <AppLayout>

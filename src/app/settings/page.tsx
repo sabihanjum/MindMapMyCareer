@@ -22,6 +22,8 @@ export default function SettingsPage() {
     fetchUser();
   }, []);
 
+  // We need to use a key on the inputs to force re-render when the default value changes
+  // after the user is fetched.
   return (
     <AppLayout>
       <div className="flex flex-col gap-8 p-4 md:p-8">
@@ -44,11 +46,11 @@ export default function SettingsPage() {
                 <>
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" defaultValue={user.name} />
+                    <Input id="name" defaultValue={user.name} key={user.id} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" defaultValue={user.email} />
+                    <Input id="email" type="email" defaultValue={user.email} key={user.id} />
                   </div>
                   <Button>Save Changes</Button>
                 </>
