@@ -18,6 +18,7 @@ export default function SettingsPage() {
 
   useEffect(() => {
     const fetchUser = async () => {
+      setIsLoading(true);
       const currentUser = await getCurrentUser();
       setUser(currentUser);
       setIsLoading(false);
@@ -39,16 +40,34 @@ export default function SettingsPage() {
         <main className="max-w-2xl">
           <Card>
             {isLoading ? (
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Skeleton className="h-20 w-20 rounded-full" />
-                    <div className="space-y-2">
-                        <Skeleton className="h-6 w-32" />
-                        <Skeleton className="h-4 w-24" />
-                    </div>
-                  </div>
-                </CardHeader>
+                <>
+                    <CardHeader>
+                        <div className="flex items-center gap-4">
+                            <Skeleton className="h-20 w-20 rounded-full" />
+                            <div className="space-y-2">
+                                <Skeleton className="h-6 w-32" />
+                                <Skeleton className="h-4 w-24" />
+                            </div>
+                        </div>
+                    </CardHeader>
+                    <CardContent className="space-y-6 pt-6">
+                        <div className="space-y-6">
+                        <div className='space-y-2'>
+                            <Skeleton className='h-4 w-10' />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                        <div className='space-y-2'>
+                            <Skeleton className='h-4 w-10' />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="border-t pt-6">
+                        <Skeleton className="h-10 w-24" />
+                    </CardFooter>
+                </>
             ) : user && (
+                <>
                 <CardHeader>
                     <div className="flex items-center gap-4">
                     <Avatar className="h-20 w-20 text-3xl">
@@ -62,21 +81,7 @@ export default function SettingsPage() {
                     </div>
                     </div>
                 </CardHeader>
-            )}
-            <CardContent className="space-y-6 pt-6">
-              {isLoading ? (
-                <div className="space-y-6">
-                  <div className='space-y-2'>
-                    <Skeleton className='h-4 w-10' />
-                    <Skeleton className="h-10 w-full" />
-                  </div>
-                   <div className='space-y-2'>
-                    <Skeleton className='h-4 w-10' />
-                    <Skeleton className="h-10 w-full" />
-                  </div>
-                </div>
-              ) : user && (
-                <>
+                <CardContent className="space-y-6 pt-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
                     <div className="relative">
@@ -91,16 +96,12 @@ export default function SettingsPage() {
                         <Input id="email" type="email" defaultValue={user.email} key={user.id + '-email'} className="pl-10" />
                     </div>
                   </div>
-                </>
-              )}
-            </CardContent>
-            <CardFooter className="border-t pt-6">
-                {isLoading ? (
-                    <Skeleton className="h-10 w-24" />
-                ) : (
+                </CardContent>
+                <CardFooter className="border-t pt-6">
                     <Button>Save Changes</Button>
-                )}
-            </CardFooter>
+                </CardFooter>
+                </>
+            )}
           </Card>
         </main>
       </div>
