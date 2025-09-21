@@ -46,11 +46,11 @@ export default function SettingsPage() {
                 <>
                   <div className="space-y-2">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" defaultValue={user.name} key={user.id} />
+                    <Input id="name" defaultValue={user.name} key={user.id + '-name'} />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" defaultValue={user.email} key={user.id} />
+                    <Input id="email" type="email" defaultValue={user.email} key={user.id + '-email'} />
                   </div>
                   <Button>Save Changes</Button>
                 </>
