@@ -28,8 +28,10 @@ const IconWrapper = ({ children, style }: { children: ReactNode; style: React.CS
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const [iconStyles, setIconStyles] = useState<React.CSSProperties[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const generateStyles = () => {
       return [...Array(15)].map(() => ({
         animation: `move ${15 + Math.random() * 20}s linear infinite`,
@@ -45,7 +47,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center p-4 overflow-hidden">
       <div className="absolute inset-0 z-0">
-        {iconStyles.map((style, i) => (
+        {isMounted && iconStyles.map((style, i) => (
           <IconWrapper key={i} style={style}>
             {icons[i % icons.length]}
           </IconWrapper>
