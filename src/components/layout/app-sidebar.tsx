@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/sidebar';
 import Logo from '../icons/logo';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { Bot, LayoutDashboard, Lightbulb, LogOut } from 'lucide-react';
+import { Bot, FileQuestion, LayoutDashboard, Lightbulb, LogOut } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Separator } from '../ui/separator';
@@ -25,6 +25,7 @@ const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
   { href: '/pathways', label: 'My Pathways', icon: <Lightbulb /> },
   { href: '/chatbot', label: 'AI Chatbot', icon: <Bot /> },
+  { href: '/quiz', label: 'Quiz', icon: <FileQuestion /> },
 ];
 
 export default function AppSidebar() {

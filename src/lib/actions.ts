@@ -10,6 +10,11 @@ import {
   AnswerCareerQueriesInput,
   AnswerCareerQueriesOutput,
 } from '@/ai/flows/answer-career-queries';
+import { 
+  generateQuiz,
+  GenerateQuizInput,
+  GenerateQuizOutput
+} from '@/ai/flows/generate-quiz';
 import { User, findUserByEmail, saveUser, findUserById } from './user-store';
 import { getSession, login, logout } from './session';
 
@@ -46,6 +51,19 @@ export async function answerCareerQueryAction(
     return { error: 'Failed to get an answer. Please try again later.' };
   }
 }
+
+export async function generateQuizAction(
+  input: GenerateQuizInput
+): Promise<GenerateQuizOutput | { error: string }> {
+  try {
+    const result = await generateQuiz(input);
+    return result;
+  } catch (error) {
+    console.error('Error in generateQuizAction:', error);
+    return { error: 'Failed to generate the quiz. Please try again later.' };
+  }
+}
+
 
 type AuthInput = Omit<User, 'id'>;
 

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { BarChart, BookOpen, Bot, Award, Star, Trophy, Target, ArrowRight } from "lucide-react";
+import { BarChart, BookOpen, Bot, Award, Star, Trophy, Target, ArrowRight, FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCurrentUser } from '@/lib/actions';
@@ -175,17 +175,19 @@ export default function DashboardPage() {
                           </CardContent>
                       </Card>
                   </Link>
-                  <Card className="bg-primary text-primary-foreground hover:bg-primary/90 transition-all cursor-pointer">
-                      <CardHeader>
-                          <CardTitle className="flex items-center justify-between font-headline text-lg">
-                              Start a Quiz
-                              <ArrowRight className="h-5 w-5"/>
-                          </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                          <p className="text-sm text-primary-foreground/80">Test your knowledge and earn points!</p>
-                      </CardContent>
-                  </Card>
+                   <Link href="/quiz">
+                    <Card className="bg-primary text-primary-foreground hover:bg-primary/90 transition-all cursor-pointer">
+                        <CardHeader>
+                            <CardTitle className="flex items-center justify-between font-headline text-lg">
+                                Start a Quiz
+                                <ArrowRight className="h-5 w-5"/>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-sm text-primary-foreground/80">Test your knowledge and earn points!</p>
+                        </CardContent>
+                    </Card>
+                  </Link>
               </div>
           </div>
         </main>
