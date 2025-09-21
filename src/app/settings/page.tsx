@@ -9,8 +9,16 @@ import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getCurrentUser } from '@/lib/actions';
 import type { User } from '@/lib/user-store';
-import { Mail, Settings, User as UserIcon } from 'lucide-react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Settings, User as UserIcon, Mail, Briefcase, Pencil } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Textarea } from '@/components/ui/textarea';
+
+const settingsNav = [
+    { name: 'Public profile', active: true },
+    { name: 'Account settings', active: false },
+    { name: 'Notifications', active: false },
+    { name: 'PRO Account', active: false },
+];
 
 export default function SettingsPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -30,79 +38,95 @@ export default function SettingsPage() {
     <AppLayout>
       <div className="flex flex-col gap-8 p-4 md:p-8">
         <header>
-          <h1 className="font-headline text-3xl font-bold tracking-tight text-primary flex items-center gap-2">
-            <Settings />
-            Profile Settings
+          <h1 className="font-headline text-3xl font-bold tracking-tight text-foreground">
+            Settings
           </h1>
-          <p className="text-muted-foreground">Manage your account information.</p>
         </header>
 
-        <main className="max-w-2xl">
-          <Card>
-            {isLoading || !user ? (
-              <>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Skeleton className="h-20 w-20 rounded-full" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-6 w-32" />
-                      <Skeleton className="h-4 w-24" />
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6 pt-6">
-                  <div className="space-y-6">
-                    <div className='space-y-2'>
-                      <Skeleton className='h-4 w-10' />
-                      <Skeleton className="h-10 w-full" />
-                    </div>
-                    <div className='space-y-2'>
-                      <Skeleton className='h-4 w-10' />
-                      <Skeleton className="h-10 w-full" />
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="border-t pt-6">
-                  <Skeleton className="h-10 w-24" />
-                </CardFooter>
-              </>
-            ) : (
-              <>
-                <CardHeader>
-                  <div className="flex items-center gap-4">
-                    <Avatar className="h-20 w-20 text-3xl">
-                      <AvatarFallback className="bg-accent text-accent-foreground font-semibold">
-                        {user.name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <h2 className="text-2xl font-bold font-headline">{user.name}</h2>
-                      <p className="text-muted-foreground">Level 5</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6 pt-6">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Full Name</Label>
-                    <div className="relative">
-                      <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <Input id="name" defaultValue={user.name} key={user.id + '-name'} className="pl-10" />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email Address</Label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <Input id="email" type="email" defaultValue={user.email} key={user.id + '-email'} className="pl-10" />
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="border-t pt-6">
-                  <Button>Save Changes</Button>
-                </CardFooter>
-              </>
-            )}
-          </Card>
+        <main className="grid grid-cols-1 gap-12 md:grid-cols-4">
+          <aside className="col-span-1">
+            <nav className="flex flex-col gap-1">
+                {settingsNav.map((item) => (
+                    <Button
+                        key={item.name}
+                        variant={item.active ? 'secondary' : 'ghost'}
+                        className="justify-start"
+                    >
+                        {item.name}
+                    </Button>
+                ))}
+            </nav>
+          </aside>
+          
+          <div className="col-span-1 md:col-span-3">
+             <Card>
+                {isLoading || !user ? (
+                    <CardContent className="p-8">
+                        <div className="flex items-center gap-6">
+                            <Skeleton className="h-24 w-24 rounded-full" />
+                            <div className="space-y-2">
+                                <Skeleton className="h-10 w-32" />
+                                <Skeleton className="h-10 w-24" />
+                            </div>
+                        </div>
+                         <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                            <div className='space-y-2'><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
+                            <div className='space-y-2'><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
+                         </div>
+                         <div className="mt-6 space-y-2"><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
+                         <div className="mt-6 space-y-2"><Skeleton className='h-4 w-12' /><Skeleton className="h-10 w-full" /></div>
+                    </CardContent>
+                ) : (
+                    <>
+                    <CardHeader className="border-b">
+                        <CardTitle className="font-headline text-xl">Public profile</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-8">
+                       <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+                            <Avatar className="h-24 w-24 text-4xl">
+                                <AvatarFallback className="bg-accent font-semibold text-accent-foreground">
+                                    {user.name.charAt(0).toUpperCase()}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="flex gap-2">
+                                <Button>Change picture</Button>
+                                <Button variant="outline">Delete picture</Button>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                             <div className="space-y-2">
+                                <Label htmlFor="fullName">Full Name</Label>
+                                <Input id="fullName" defaultValue={user.name.split(' ')[0]} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="lastName">Last Name</Label>
+                                <Input id="lastName" defaultValue={user.name.split(' ').slice(1).join(' ')} />
+                            </div>
+                        </div>
+
+                        <div className="mt-6 space-y-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input id="email" type="email" defaultValue={user.email} />
+                        </div>
+                        
+                         <div className="mt-6 space-y-2">
+                            <Label htmlFor="profession">Profession</Label>
+                            <Input id="profession" defaultValue="Student" />
+                        </div>
+
+                        <div className="mt-6 space-y-2">
+                            <Label htmlFor="bio">Bio</Label>
+                            <Textarea id="bio" placeholder="Tell us a little about yourself" className="min-h-[100px]"/>
+                        </div>
+                    </CardContent>
+                    <CardFooter className="border-t bg-secondary/50 px-8 py-4">
+                        <Button>Save Changes</Button>
+                    </CardFooter>
+                    </>
+                )}
+             </Card>
+          </div>
         </main>
       </div>
     </AppLayout>
