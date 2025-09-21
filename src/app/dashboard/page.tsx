@@ -50,7 +50,7 @@ export default function DashboardPage() {
             ) : (
                 <Skeleton className="h-9 w-64" />
             )}
-            <p className="text-muted-foreground">Welcome to MindMapMyCareer</p>
+            <p className="text-primary font-bold">Welcome to MindMapMyCareer</p>
         </header>
 
         <main className="grid grid-cols-1 gap-6 lg:grid-cols-4">
