@@ -17,7 +17,7 @@ export async function generateCareerPathwaysAction(
     const result = await generateCareerPathways(input);
     return result;
   } catch (error) {
-    console.error(error);
+    console.error('Error in generateCareerPathwaysAction:', error);
     return { error: 'Failed to generate career pathways. Please try again later.' };
   }
 }
@@ -31,7 +31,7 @@ export async function* answerCareerQueryAction(
         yield { answer: partial.answer };
     }
   } catch (error) {
-    console.error(error);
+    console.error('Error in answerCareerQueryAction:', error);
     yield { error: 'Failed to get an answer. Please try again later.' };
   }
 }
